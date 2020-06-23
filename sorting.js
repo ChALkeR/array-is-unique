@@ -22,6 +22,8 @@ const deepCompare = (obj, obj2) => {
     return 0
   }
 
+  // Primitives are already compared above, only objects and arrays remain below
+
   const [proto, proto2] = [Object.getPrototypeOf(obj), Object.getPrototypeOf(obj2)]
   if (proto !== proto2) {
     if (proto === Object.prototype && proto2 === Array.prototype) return -1

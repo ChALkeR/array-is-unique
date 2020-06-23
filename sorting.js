@@ -1,7 +1,5 @@
 'use strict'
 
-const primitiveTypes = new Set(['number', 'boolean', 'string'])
-
 // A variant of deepEqual which sets an order on deep objects
 // Throws an error on unsupported
 const deepCompare = (obj, obj2) => {
@@ -13,7 +11,7 @@ const deepCompare = (obj, obj2) => {
   if (type < type2) return -1
   if (type > type2) return 1
 
-  if (primitiveTypes.has(type)) {
+  if (type === 'number' || type === 'boolean' || type === 'string') {
     if (obj < obj2) return -1
     if (obj > obj2) return 1
     return 0
@@ -53,25 +51,14 @@ const deepCompare = (obj, obj2) => {
   throw new Error('Uncomparable')
 }
 
-const fastTypes = new Set(['number', 'boolean', 'integer', 'string'])
 const unique = (array, type = []) => {
   let ok = true
-  if (fastTypes.has(type) || Array.isArray(type) && type.length === 1 && fastTypes.has(type[0])) {
-    [...array].sort((a, b) => {
-      if (ok === false) return 0
-      if (a < b) return -1
-      if (a > b) return 1
-      ok = false
-      return 0
-    })
-  } else {
-    [...array].sort((a, b) => {
-      if (ok === false) return 0
-      const res = deepCompare(a, b)
-      if (res === 0) ok = false
-      return 0
-    })
-  }
+  ;[...array].sort((a, b) => {
+    if (ok === false) return 0
+    const res = deepCompare(a, b)
+    if (res === 0) ok = false
+    return 0
+  })
   return ok
 }
 

@@ -12,8 +12,8 @@ const deepCompare = (obj, obj2) => {
   if (type > type2) return 1
 
   if (type === 'number' || type === 'boolean' || type === 'string') {
-    if (obj < obj2) return -1
-    if (obj > obj2) return 1
+    if (obj < obj2 || Object.is(obj, NaN)) return -1
+    if (obj > obj2 || Object.is(obj2, NaN)) return 1
     return 0
   }
 

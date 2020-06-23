@@ -59,7 +59,7 @@ const deepCompare = (obj, obj2) => {
 const unique = (array, type = []) => {
   let ok = true
   ;[...array].sort((a, b) => {
-    if (ok === false) return 0
+    if (!ok) return 0
     const res = deepCompare(a, b)
     if (res === 0) ok = false
     return 0

@@ -3,7 +3,7 @@
 // A variant of deepEqual which sets an order on deep objects
 // Throws an error on unsupported
 const deepCompare = (obj, obj2) => {
-  if (obj === obj2 || Object.is(obj, obj2)) return 0
+  if (obj === obj2) return 0
   if (!obj && obj2) return -1
   if (obj && !obj2) return 1
 
@@ -11,9 +11,14 @@ const deepCompare = (obj, obj2) => {
   if (type < type2) return -1
   if (type > type2) return 1
 
+  if ((!obj || !obj2) && type === 'number') {
+    if (Object.is(obj, obj2)) return 0
+    if (Object.is(obj, NaN)) return -1
+    if (Object.is(obj2, NaN)) return 1
+  }
   if (type === 'number' || type === 'boolean' || type === 'string') {
-    if (obj < obj2 || Object.is(obj, NaN)) return -1
-    if (obj > obj2 || Object.is(obj2, NaN)) return 1
+    if (obj < obj2 || !obj) return -1
+    if (obj > obj2 || !obj2) return 1
     return 0
   }
 
